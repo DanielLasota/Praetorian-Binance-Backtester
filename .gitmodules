@@ -1,0 +1,3 @@
+[submodule "praetorian-strategies"]
+	path = praetorian-strategies
+	url = https://github.com/DanielLasota/Praetorian-Strategies.git
