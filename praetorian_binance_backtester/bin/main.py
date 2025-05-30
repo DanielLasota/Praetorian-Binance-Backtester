@@ -12,13 +12,45 @@ if __name__ == '__main__':
         strategy_config=OLSStrategyConfig(
             buy_from=100,
             sell_from=-100,
-            variable_list=['timestampOfReceive', 'market', 'symbol', 'bestAskPrice', 'bestBidPrice'],
-            coefficients=[]
+            variable_list=[
+                'timestampOfReceive',
+                'market',
+                'symbol',
+                'bestAskPrice',
+                'bestBidPrice',
+                'midPrice',
+                'bestVolumeImbalance',
+                'queueImbalance',
+                'volumeImbalance'
+            ],
+            coefficients=[],
+            tan_h=False
+        )
+    )
+
+    ols2_strategy = OLSStrategy(
+        strategy_config=OLSStrategyConfig(
+            buy_from=200,
+            sell_from=-200,
+            variable_list=[
+                'timestampOfReceive',
+                'market',
+                'symbol',
+                'bestAskPrice',
+                'bestBidPrice',
+                'midPrice',
+                'bestVolumeImbalance',
+                'queueImbalance',
+                'volumeImbalance',
+                'gap'
+            ],
+            coefficients=[],
+            tan_h=False
         )
     )
 
     config = BacktesterConfig(
-        learn_date_range=['21-05-2025', '23-05-2025'],
+        learn_date_range=['18-05-2025', '23-05-2025'],
         backtest_date_range=['24-05-2025', '24-05-2025'],
         pairs=[
             "TRXUSDT",
@@ -35,12 +67,14 @@ if __name__ == '__main__':
         ],
         join_pairs_into_one_csv=False,
         join_markets_into_one_csv=False,
-        strategies=[ols1_strategy]
+        strategies=[
+            ols1_strategy,
+            # ols2_strategy
+        ]
     )
-    backtester = Backtester()
-
+    backtester = Backtester(config=config)
     start_time = time.time()
-    backtester.run(config=config)
+    backtester.run()
     end_time = time.time()
 
     execution_time = end_time - start_time

@@ -1,1 +1,5 @@
 pandas
+pyperclip
+statsmodels
+numpy
+numba
