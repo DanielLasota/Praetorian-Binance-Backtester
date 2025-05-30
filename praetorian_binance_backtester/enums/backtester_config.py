@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 from pathlib import Path
-import multiprocessing
 
 from praetorian_binance_backtester.enums.asset_parameters import AssetParameters
 from praetorian_strategies import Strategy
@@ -10,7 +9,7 @@ from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
 
 
 MERGED_CSVS_NEST_CATALOG = str(Path.home() / "Documents" / "merged_csvs")
-LEARNING_PROCESS_AMOUNT = 4
+LEARNING_PROCESS_AMOUNT = 3
 
 
 @dataclass
@@ -24,10 +23,10 @@ class BacktesterConfig:
     join_markets_into_one_csv: bool
     strategies: list[Strategy]
 
+    common_variables: list[str] = field(init=False)
+
     learn_list_of_merged_list_of_asset_parameters: list[list[AssetParameters]] = field(init=False)
     backtest_list_of_merged_list_of_asset_parameters: list[list[AssetParameters]] = field(init=False)
-
-    LEARNING_PROCESS_AMOUNT: int = multiprocessing.cpu_count()
 
     def __post_init__(self):
         self.pairs = [pair.upper() for pair in self.pairs]
@@ -57,4 +56,12 @@ class BacktesterConfig:
             stream_types=self.stream_types,
             should_join_pairs_into_one_csv=self.join_pairs_into_one_csv,
             should_join_markets_into_one_csv=self.join_markets_into_one_csv
+        )
+
+        self.common_variables = list(
+            dict.fromkeys(
+                var
+                for strat in self.strategies
+                for var in strat.strategy_config.variable_list
+            )
         )
