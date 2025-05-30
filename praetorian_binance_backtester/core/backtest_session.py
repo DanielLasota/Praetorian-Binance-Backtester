@@ -4,7 +4,7 @@ from typing import Callable
 from cpp_binance_orderbook import OrderBookSessionSimulator
 
 from praetorian_binance_backtester.enums.asset_parameters import AssetParameters
-from praetorian_binance_backtester.enums.backtester_config import MERGED_CSVS_NEST_CATALOG, BacktesterConfig
+from praetorian_binance_backtester.enums.backtester_config import MERGED_CSVS_NEST_CATALOG
 from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
 
 

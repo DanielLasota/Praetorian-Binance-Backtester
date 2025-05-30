@@ -27,8 +27,8 @@ def copy_sources_to_clipboard(directories):
 
 if __name__ == '__main__':
     dirs_to_scan = [
-        './praetorian-strategies/praetorian_strategies/core',
-        './praetorian-strategies/praetorian_strategies/strategies',
+        './Praetorian-Strategies/praetorian_strategies/core',
+        './Praetorian-Strategies/praetorian_strategies/strategies',
         './praetorian_binance_backtester/bin/',
         './praetorian_binance_backtester/core/',
     ]

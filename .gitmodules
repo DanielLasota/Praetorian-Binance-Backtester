@@ -1,3 +1,6 @@
-[submodule "praetorian-strategies"]
-	path = praetorian-strategies
+[submodule "Praetorian-Strategies"]
+	path = Praetorian-Strategies
 	url = https://github.com/DanielLasota/Praetorian-Strategies.git
+[submodule "Legatus-Binance-Deputy"]
+	path = Legatus-Binance-Deputy
+	url = https://github.com/DanielLasota/Legatus-Binance-Deputy.git
