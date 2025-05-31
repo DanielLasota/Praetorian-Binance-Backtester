@@ -10,6 +10,14 @@ from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
 
 MERGED_CSVS_NEST_CATALOG = str(Path.home() / "Documents" / "merged_csvs")
 LEARNING_PROCESS_AMOUNT = 3
+BASE_CPP_ORDER_BOOK_VARIABLES = [
+    'timestampOfReceive',
+    'market',
+    'symbol',
+    'bestAskPrice',
+    'bestBidPrice',
+    'midPrice'
+]
 
 
 @dataclass(slots=True)
@@ -23,7 +31,8 @@ class BacktesterConfig:
     join_markets_into_one_csv: bool
     strategies: list[Strategy]
 
-    common_variables: list[str] = field(init=False)
+    common_strategies_features: list[str] = field(init=False)
+    cpp_order_book_variables_with_common_features: list[str] = field(init=False)
 
     learn_list_of_merged_list_of_asset_parameters: list[list[AssetParameters]] = field(init=False)
     backtest_list_of_merged_list_of_asset_parameters: list[list[AssetParameters]] = field(init=False)
@@ -58,10 +67,12 @@ class BacktesterConfig:
             should_join_markets_into_one_csv=self.join_markets_into_one_csv
         )
 
-        self.common_variables = list(
+        self.common_strategies_features = list(
             dict.fromkeys(
                 var
                 for strat in self.strategies
-                for var in strat.strategy_config.variable_list
+                for var in strat.strategy_config.features
             )
         )
+
+        self.cpp_order_book_variables_with_common_features = BASE_CPP_ORDER_BOOK_VARIABLES + self.common_strategies_features

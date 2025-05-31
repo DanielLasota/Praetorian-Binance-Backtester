@@ -12,13 +12,7 @@ if __name__ == '__main__':
         strategy_config=OLSStrategyConfig(
             buy_from=0.00002,
             sell_from=-0.00002,
-            variable_list=[
-                'timestampOfReceive',
-                'market',
-                'symbol',
-                'bestAskPrice',
-                'bestBidPrice',
-                'midPrice',
+            features=[
                 'bestVolumeImbalance',
                 'queueImbalance',
                 'volumeImbalance'
@@ -33,13 +27,7 @@ if __name__ == '__main__':
         strategy_config=OLSStrategyConfig(
             buy_from=0.00001,
             sell_from=-0.00001,
-            variable_list=[
-                'timestampOfReceive',
-                'market',
-                'symbol',
-                'bestAskPrice',
-                'bestBidPrice',
-                'midPrice',
+            features=[
                 'bestVolumeImbalance',
                 'queueImbalance',
                 'volumeImbalance',
