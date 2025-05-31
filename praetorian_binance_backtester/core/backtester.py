@@ -20,17 +20,19 @@ class Backtester:
 
     def run(self) -> None:
 
-        learned_df = LearnSession.learn(
-            self.config.learn_list_of_merged_list_of_asset_parameters,
-            self.config.common_variables
+        learn_df = LearnSession.learn(
+            list_of_list_of_asset_parameters=self.config.learn_list_of_merged_list_of_asset_parameters,
+            variables=self.config.cpp_order_book_variables_with_common_features
         )
 
-        self.strategy_pool.teach_strategies(learned_df)
+        self.strategy_pool.teach_strategies(learn_df)
 
         BacktestSession.run(
-            self.config.backtest_list_of_merged_list_of_asset_parameters,
-            self.config.common_variables,
-            self.strategy_pool.inform_strategies
+            list_of_list_of_asset_parameters=self.config.backtest_list_of_merged_list_of_asset_parameters,
+            variables=self.config.cpp_order_book_variables_with_common_features,
+            python_callback=self.strategy_pool.inform_strategies
         )
 
-        learned_df.to_csv(f'{MERGED_CSVS_NEST_CATALOG}/x.csv', index=False)
+        learn_df.to_csv(f'{MERGED_CSVS_NEST_CATALOG}/x.csv', index=False)
+
+
