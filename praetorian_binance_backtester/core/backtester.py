@@ -6,6 +6,11 @@ from praetorian_binance_backtester.enums.backtester_config import BacktesterConf
 
 class Backtester:
 
+    __slots__ = [
+        'config',
+        'strategy_pool',
+    ]
+
     def __init__(
             self,
             config: BacktesterConfig
@@ -28,4 +33,4 @@ class Backtester:
             self.strategy_pool.inform_strategies
         )
 
-        # learned_df.to_csv(f'{MERGED_CSVS_NEST_CATALOG}/x.csv', index=False)
+        learned_df.to_csv(f'{MERGED_CSVS_NEST_CATALOG}/x.csv', index=False)

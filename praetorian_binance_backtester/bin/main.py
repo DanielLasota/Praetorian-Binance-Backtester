@@ -2,7 +2,7 @@ import time
 
 from praetorian_binance_backtester import Backtester
 from praetorian_binance_backtester import OLSStrategy
-from praetorian_binance_backtester import OLSStrategyConfig
+from praetorian_strategies import OLSStrategyConfig
 from praetorian_binance_backtester.enums.backtester_config import BacktesterConfig
 
 
@@ -10,8 +10,8 @@ if __name__ == '__main__':
 
     ols1_strategy = OLSStrategy(
         strategy_config=OLSStrategyConfig(
-            buy_from=100,
-            sell_from=-100,
+            buy_from=0.00002,
+            sell_from=-0.00002,
             variable_list=[
                 'timestampOfReceive',
                 'market',
@@ -24,14 +24,15 @@ if __name__ == '__main__':
                 'volumeImbalance'
             ],
             coefficients=[],
-            tan_h=False
+            mid_price_diff_seconds=10,
+            tan_h=True
         )
     )
 
     ols2_strategy = OLSStrategy(
         strategy_config=OLSStrategyConfig(
-            buy_from=200,
-            sell_from=-200,
+            buy_from=0.00001,
+            sell_from=-0.00001,
             variable_list=[
                 'timestampOfReceive',
                 'market',
@@ -45,6 +46,7 @@ if __name__ == '__main__':
                 'gap'
             ],
             coefficients=[],
+            mid_price_diff_seconds=10,
             tan_h=False
         )
     )
