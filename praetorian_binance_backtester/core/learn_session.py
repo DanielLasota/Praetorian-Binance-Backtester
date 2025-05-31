@@ -7,7 +7,10 @@ from praetorian_binance_backtester.enums.backtester_config import MERGED_CSVS_NE
 from praetorian_binance_backtester.enums.backtester_config import LEARNING_PROCESS_AMOUNT
 from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
 
+
 class LearnSession:
+
+    __slots__ = []
 
     @staticmethod
     def learn(list_of_list_of_asset_parameters: list[list[AssetParameters]], variable_list: list) -> pd.DataFrame:

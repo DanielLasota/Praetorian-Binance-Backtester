@@ -12,7 +12,7 @@ MERGED_CSVS_NEST_CATALOG = str(Path.home() / "Documents" / "merged_csvs")
 LEARNING_PROCESS_AMOUNT = 3
 
 
-@dataclass
+@dataclass(slots=True)
 class BacktesterConfig:
     learn_date_range: list[str]
     backtest_date_range: list[str]

@@ -10,6 +10,8 @@ from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
 
 class BacktestSession:
 
+    __slots__ = []
+
     def __init__(self):
         ...
 
