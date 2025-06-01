@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from praetorian_binance_backtester.enums.asset_parameters import AssetParameters
-from praetorian_strategies import Strategy
+from praetorian_strategies import Strategy, OLSStrategy
 from praetorian_binance_backtester.enums.market import Market
 from praetorian_binance_backtester.enums.stream_type import StreamType
 from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
@@ -30,7 +30,7 @@ class BacktesterConfig:
     stream_types: list[str | StreamType]
     join_pairs_into_one_csv: bool
     join_markets_into_one_csv: bool
-    strategies: list[Strategy]
+    strategies: list[Strategy | OLSStrategy]
 
     common_strategies_features: list[str] = field(init=False)
     cpp_order_book_variables_with_common_features: list[str] = field(init=False)

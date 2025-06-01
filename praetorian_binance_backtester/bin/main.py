@@ -10,6 +10,7 @@ if __name__ == '__main__':
 
     ols1_strategy = OLSStrategy(
         ols_strategy_config=OLSStrategyConfig(
+            strategy_name='ols1_strategy',
             buy_from=0.0000_22,
             sell_from=-0.0000_22,
             quantity=1000,
@@ -22,8 +23,8 @@ if __name__ == '__main__':
             mid_price_diff_seconds=20,
             global_tan_h=False,
             single_features_to_be_tan_h=[
-                'queueImbalance',
-                'volumeImbalance'
+                # 'queueImbalance',
+                # 'volumeImbalance'
             ],
             add_constant=False
         )
@@ -31,6 +32,7 @@ if __name__ == '__main__':
 
     ols2_strategy = OLSStrategy(
         ols_strategy_config=OLSStrategyConfig(
+            strategy_name='ols2_strategy',
             buy_from=0.000015,
             sell_from=-0.000015,
             quantity=1000,
