@@ -13,7 +13,7 @@ class LearnSession:
     __slots__ = []
 
     @staticmethod
-    def learn(list_of_list_of_asset_parameters: list[list[AssetParameters]], variables: list) -> pd.DataFrame:
+    def compute_variables_df(list_of_list_of_asset_parameters: list[list[AssetParameters]], variables: list) -> pd.DataFrame:
         if LEARNING_PROCESS_AMOUNT == 1:
             return LearnSession._date_range_single_process_iterator(list_of_list_of_asset_parameters, variables)
         else:
