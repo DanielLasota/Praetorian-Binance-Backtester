@@ -29,6 +29,7 @@ if __name__ == '__main__':
     dirs_to_scan = [
         './praetorian_binance_backtester/bin/',
         './praetorian_binance_backtester/core/',
+        './praetorian_binance_backtester/enums/',
 
         './Praetorian-Strategies/praetorian_strategies/core/',
         './Praetorian-Strategies/praetorian_strategies/strategies/',

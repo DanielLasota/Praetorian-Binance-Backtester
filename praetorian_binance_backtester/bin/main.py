@@ -9,24 +9,31 @@ from praetorian_binance_backtester.enums.backtester_config import BacktesterConf
 if __name__ == '__main__':
 
     ols1_strategy = OLSStrategy(
-        strategy_config=OLSStrategyConfig(
-            buy_from=0.00002,
-            sell_from=-0.00002,
+        ols_strategy_config=OLSStrategyConfig(
+            buy_from=0.0000_22,
+            sell_from=-0.0000_22,
+            quantity=1000,
             features=[
                 'bestVolumeImbalance',
                 'queueImbalance',
                 'volumeImbalance'
             ],
             coefficients=[],
-            mid_price_diff_seconds=10,
-            tan_h=True
+            mid_price_diff_seconds=20,
+            global_tan_h=False,
+            single_features_to_be_tan_h=[
+                'queueImbalance',
+                'volumeImbalance'
+            ],
+            add_constant=False
         )
     )
 
     ols2_strategy = OLSStrategy(
-        strategy_config=OLSStrategyConfig(
-            buy_from=0.00001,
-            sell_from=-0.00001,
+        ols_strategy_config=OLSStrategyConfig(
+            buy_from=0.000015,
+            sell_from=-0.000015,
+            quantity=1000,
             features=[
                 'bestVolumeImbalance',
                 'queueImbalance',
@@ -34,8 +41,13 @@ if __name__ == '__main__':
                 'gap'
             ],
             coefficients=[],
-            mid_price_diff_seconds=10,
-            tan_h=False
+            mid_price_diff_seconds=20,
+            global_tan_h=False,
+            single_features_to_be_tan_h=[
+                'queueImbalance',
+                'volumeImbalance'
+            ],
+            add_constant=True
         )
     )
 

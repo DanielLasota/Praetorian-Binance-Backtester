@@ -18,6 +18,7 @@ BASE_CPP_ORDER_BOOK_VARIABLES = [
     'bestBidPrice',
     'midPrice'
 ]
+FEE_RATE = 0.005 # 0.5%
 
 
 @dataclass(slots=True)
@@ -71,7 +72,7 @@ class BacktesterConfig:
             dict.fromkeys(
                 var
                 for strat in self.strategies
-                for var in strat.strategy_config.features
+                for var in strat.ols_strategy_config.features
             )
         )
 
