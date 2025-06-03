@@ -11,8 +11,8 @@ if __name__ == '__main__':
     ols1_strategy = OLSStrategy(
         ols_strategy_config=OLSStrategyConfig(
             strategy_name='ols1_strategy',
-            buy_from=0.0000_22,
-            sell_from=-0.0000_22,
+            buy_from=0.0000_25,
+            sell_from=-0.0000_25,
             quantity=1000,
             features=[
                 'bestVolumeImbalance',
@@ -54,8 +54,8 @@ if __name__ == '__main__':
     )
 
     config = BacktesterConfig(
-        learn_date_range=['18-05-2025', '23-05-2025'],
-        backtest_date_range=['24-05-2025', '24-05-2025'],
+        learn_date_range=['22-05-2025', '22-05-2025'],
+        backtest_date_range=['23-05-2025', '23-05-2025'],
         pairs=[
             "TRXUSDT",
         ],

@@ -42,14 +42,15 @@ class Backtester:
             final_order_book_metrics_entry=backtest_session.get_final_order_book_metrics_entry()
         )
 
-        backtest_df = backtest_session.get_backtest_entry_df(self.backtester_config.cpp_order_book_variables_with_common_features)
-        # print(backtest_df.columns)
-        # print(backtest_df)
+        backtest_df = backtest_session.get_backtest_entry_df(
+            self.backtester_config.cpp_order_book_variables_with_common_features
+        )
 
         print(f'deputy.get_account_balance() {deputy.get_account_balance_usdt():.2f}')
         print(f'deputy.get_account_balance_crypto() {deputy.get_account_balance_crypto("TRXUSDT")}')
-        for _ in deputy.get_deputy_order_list():
-            print(_)
 
         for strategy in self.backtester_config.strategies:
-            print(strategy.ols_strategy_config.strategy_name)
+            strategy.strategy_summary.print_strategy_summary()
+            strategy.strategy_summary.show_strategy_summary_chart(
+                order_book_metrics_entries_df=backtest_df
+            )

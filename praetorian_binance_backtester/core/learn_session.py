@@ -44,11 +44,11 @@ class LearnSession:
         csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
 
         oss = OrderBookSessionSimulator()
-        orderbook_metrics_entry_list = oss.compute_variables(csv_path, variables)
+        orderbook_metrics_entries = oss.compute_variables(csv_path, variables)
 
         return pd.DataFrame(
             [
                 {var: getattr(entry, var) for var in variables}
-                for entry in orderbook_metrics_entry_list
+                for entry in orderbook_metrics_entries
             ]
         )

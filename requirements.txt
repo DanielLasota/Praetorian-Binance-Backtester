@@ -3,3 +3,4 @@ pyperclip
 statsmodels
 numpy
 numba
+matplotlib
