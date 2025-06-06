@@ -1,10 +1,12 @@
 import pandas as pd
 from pathlib import Path
+from alive_progress import alive_bar
 from cpp_binance_orderbook import OrderBookSessionSimulator
 
 from praetorian_binance_backtester.enums.asset_parameters import AssetParameters
 from praetorian_binance_backtester.enums.backtester_config import MERGED_CSVS_NEST_CATALOG
 from praetorian_binance_backtester.enums.backtester_config import LEARNING_PROCESS_AMOUNT
+from praetorian_binance_backtester.utils.colors import Colors
 from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
 
 
@@ -22,20 +24,27 @@ class LearnSession:
     @staticmethod
     def _date_range_single_process_iterator(list_of_list_of_asset_parameters: list[list[AssetParameters]], variables: list) -> pd.DataFrame:
         dataframes = []
-        for list_of_asset_parameters in list_of_list_of_asset_parameters:
-            df = LearnSession._compute_variables_for_single_merged_csv(list_of_asset_parameters, variables)
-            dataframes.append(df)
+        print(Colors.CYAN)
+        with alive_bar(len(list_of_list_of_asset_parameters), title='Learn Session', spinner='dots_waves') as bar:
+            for list_of_asset_parameters in list_of_list_of_asset_parameters:
+                df = LearnSession._compute_variables_for_single_merged_csv(list_of_asset_parameters, variables)
+                dataframes.append(df)
+                bar()
+        print(Colors.RESET)
         return pd.concat(dataframes, ignore_index=True)
 
     @staticmethod
     def _date_range_multiprocessing_iterator(list_of_list_of_asset_parameters, variables) -> pd.DataFrame:
         import multiprocessing
-
-        with multiprocessing.Pool(processes=LEARNING_PROCESS_AMOUNT) as pool:
-            dfs = pool.starmap(
-                LearnSession._compute_variables_for_single_merged_csv,
-                [(list_of_asset_parameters, variables) for list_of_asset_parameters in list_of_list_of_asset_parameters]
-            )
+        print(Colors.CYAN)
+        with alive_bar(len(list_of_list_of_asset_parameters), title=f'Learn Session', spinner='dots_waves') as bar:
+            with multiprocessing.Pool(processes=LEARNING_PROCESS_AMOUNT) as pool:
+                dfs = pool.starmap(
+                    LearnSession._compute_variables_for_single_merged_csv,
+                    [(list_of_asset_parameters, variables) for list_of_asset_parameters in list_of_list_of_asset_parameters]
+                )
+                bar(len(list_of_list_of_asset_parameters))
+        print(Colors.RESET)
         return pd.concat(dfs, ignore_index=True)
 
     @staticmethod
