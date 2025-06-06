@@ -1,11 +1,11 @@
-import time
-
 from legatus_binance_deputy.core.deputy_registry import DeputyRegistry
 from legatus_binance_deputy.enums.deputy_mode import DeputyMode
+from praetorian_binance_backtester.utils.colors import Colors
+from praetorian_binance_backtester.utils.logo import logo2
 from praetorian_strategies import StrategyPool
 from praetorian_binance_backtester.core.backtest_session import BacktestSession
 from praetorian_binance_backtester.core.learn_session import LearnSession
-from praetorian_binance_backtester.enums.backtester_config import BacktesterConfig, MERGED_CSVS_NEST_CATALOG
+from praetorian_binance_backtester.enums.backtester_config import BacktesterConfig
 
 
 class Backtester:
@@ -23,6 +23,7 @@ class Backtester:
         self.strategy_pool = StrategyPool(config.strategies)
 
     def run(self) -> None:
+        print(f'{Colors.CYAN}{logo2}')
         deputy = DeputyRegistry.get_deputy(mode=DeputyMode.BACKTEST, name='daniel')
 
         learn_df = LearnSession.compute_variables_df(
@@ -42,15 +43,8 @@ class Backtester:
             final_order_book_metrics_entry=backtest_session.get_final_order_book_metrics_entry()
         )
 
-        backtest_df = backtest_session.get_backtest_entry_df(
+        backtest_order_book_metrics_entry_df = backtest_session.get_backtest_order_book_metrics_entry_df(
             self.backtester_config.cpp_order_book_variables_with_common_features
         )
 
-        print(f'deputy.get_account_balance() {deputy.get_account_balance_usdt():.2f}')
-        print(f'deputy.get_account_balance_crypto() {deputy.get_account_balance_crypto("TRXUSDT")}')
-
-        for strategy in self.backtester_config.strategies:
-            strategy.strategy_summary.print_strategy_summary()
-            strategy.strategy_summary.show_strategy_summary_chart(
-                order_book_metrics_entries_df=backtest_df
-            )
+        self.strategy_pool.show_strategies_summary(backtest_order_book_metrics_entry_df)

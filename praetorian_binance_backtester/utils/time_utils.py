@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from functools import wraps
 import time
 
 
@@ -71,3 +72,14 @@ class TimeUtils:
         date = datetime.strptime(date, "%d-%m-%Y")
         yesterday_date = date - timedelta(days=1)
         return yesterday_date.strftime("%d-%m-%Y")
+
+def measure_time(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(f"Funkcja {func.__name__} wykonała się w {execution_time:.4f} sekund.")
+        return result
+    return wrapper
