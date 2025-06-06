@@ -1,8 +1,11 @@
-from legatus_binance_deputy.core.deputy_registry import DeputyRegistry
-from legatus_binance_deputy.enums.deputy_mode import DeputyMode
-from praetorian_binance_backtester.utils.colors import Colors
-from praetorian_binance_backtester.utils.logo import logo2
 from praetorian_strategies import StrategyPool
+
+from legatus_binance_deputy import DeputyRegistry
+from legatus_binance_deputy import DeputyMode
+
+from praetorian_binance_backtester.utils.colors import Colors
+from praetorian_binance_backtester.utils.logo import logo2, spqr_art2
+from praetorian_binance_backtester.utils.time_utils import measure_time
 from praetorian_binance_backtester.core.backtest_session import BacktestSession
 from praetorian_binance_backtester.core.learn_session import LearnSession
 from praetorian_binance_backtester.enums.backtester_config import BacktesterConfig
@@ -22,7 +25,9 @@ class Backtester:
         self.backtester_config = config
         self.strategy_pool = StrategyPool(config.strategies)
 
-    def run(self) -> None:
+    @measure_time
+    def run_backtest(self) -> None:
+        print(f'{Colors.MAGENTA}{spqr_art2}')
         print(f'{Colors.CYAN}{logo2}')
         deputy = DeputyRegistry.get_deputy(mode=DeputyMode.BACKTEST, name='daniel')
 

@@ -27,13 +27,17 @@ def copy_sources_to_clipboard(directories):
 
 if __name__ == '__main__':
     dirs_to_scan = [
+        './praetorian_binance_backtester/',
         './praetorian_binance_backtester/bin/',
         './praetorian_binance_backtester/core/',
         './praetorian_binance_backtester/enums/',
 
         './Praetorian-Strategies/praetorian_strategies/core/',
+        './Praetorian-Strategies/praetorian_strategies/',
         './Praetorian-Strategies/praetorian_strategies/strategies/',
+        './Praetorian-Strategies/praetorian_strategies/test/',
 
+        './Legatus-Binance-Deputy/legatus_binance_deputy/',
         './Legatus-Binance-Deputy/legatus_binance_deputy/bin/',
         './Legatus-Binance-Deputy/legatus_binance_deputy/core/',
         './Legatus-Binance-Deputy/legatus_binance_deputy/enums/',

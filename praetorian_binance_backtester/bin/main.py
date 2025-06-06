@@ -1,8 +1,7 @@
-import time
+from praetorian_strategies import OLSStrategy
+from praetorian_strategies import OLSStrategyConfig
 
 from praetorian_binance_backtester import Backtester
-from praetorian_binance_backtester import OLSStrategy
-from praetorian_strategies import OLSStrategyConfig
 from praetorian_binance_backtester.enums.backtester_config import BacktesterConfig
 
 
@@ -11,8 +10,8 @@ if __name__ == '__main__':
     ols1_strategy = OLSStrategy(
         ols_strategy_config=OLSStrategyConfig(
             strategy_name='ols1_strategy',
-            buy_from=0.0000_56,
-            sell_from=-0.0000_56,
+            buy_from=0.0000_30,
+            sell_from=-0.0000_30,
             quantity=1000,
             features=[
                 'bestVolumeImbalance',
@@ -32,7 +31,7 @@ if __name__ == '__main__':
 
     config = BacktesterConfig(
         learn_date_range=['19-05-2025', '19-05-2025'],
-        backtest_date_range=['20-05-2025', '20-05-2025'],
+        backtest_date_range=['20-05-2025', '23-05-2025'],
         pairs=[
             "TRXUSDT",
         ],
@@ -53,4 +52,4 @@ if __name__ == '__main__':
         ]
     )
     backtester = Backtester(config=config)
-    backtester.run()
+    backtester.run_backtest()
