@@ -8,7 +8,7 @@ from praetorian_binance_backtester.enums.backtester_config import BacktesterConf
 if __name__ == '__main__':
 
     ols1_strategy = OLSStrategy(
-        ols_strategy_config=OLSStrategyConfig(
+        strategy_config=OLSStrategyConfig(
             strategy_name='ols1_strategy',
             buy_from=0.0000_30,
             sell_from=-0.0000_30,
