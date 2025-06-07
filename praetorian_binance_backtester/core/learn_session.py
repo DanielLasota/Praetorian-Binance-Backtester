@@ -1,7 +1,8 @@
+from operator import attrgetter
 import pandas as pd
 from pathlib import Path
 from alive_progress import alive_bar
-from cpp_binance_orderbook import OrderBookSessionSimulator
+from cpp_binance_orderbook import OrderBookSessionSimulator, OrderBookMetricsEntry
 
 from praetorian_binance_backtester.enums.asset_parameters import AssetParameters
 from praetorian_binance_backtester.enums.backtester_config import MERGED_CSVS_NEST_CATALOG
@@ -50,16 +51,27 @@ class LearnSession:
         return pd.concat(dfs, ignore_index=True)
 
     @staticmethod
+    @measure_time
     def _compute_variables_for_single_merged_csv(list_of_asset_parameters: list[AssetParameters], variables: list) -> pd.DataFrame:
         csv_name = fu.get_base_of_merged_csv_filename(list_of_asset_parameters)
         csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
 
         oss = OrderBookSessionSimulator()
-        orderbook_metrics_entries = oss.compute_variables(csv_path, variables)
+        orderbook_metrics_entries: list[OrderBookMetricsEntry] = oss.compute_variables(csv_path, variables)
 
-        return pd.DataFrame(
-            [
-                {var: getattr(entry, var) for var in variables}
-                for entry in orderbook_metrics_entries
-            ]
-        )
+        return LearnSession._convert_order_book_metrics_entry_list_to_df(orderbook_metrics_entries, variables)
+
+    @staticmethod
+    @measure_time
+    def _convert_order_book_metrics_entry_list_to_df(
+            orderbook_metrics_entries: list[OrderBookMetricsEntry],
+            variables: list[str]
+    ) -> pd.DataFrame:
+        getters = {var: attrgetter(var) for var in variables}
+        data = {var: [] for var in variables}
+
+        for entry in orderbook_metrics_entries:
+            for var, getter in getters.items():
+                data[var].append(getter(entry))
+
+        return pd.DataFrame(data)

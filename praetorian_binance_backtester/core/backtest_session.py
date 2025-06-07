@@ -1,3 +1,4 @@
+from operator import attrgetter
 from pathlib import Path
 from typing import Callable
 from alive_progress import alive_bar
@@ -37,26 +38,28 @@ class BacktestSession:
                 csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
 
                 oss = OrderBookSessionSimulator()
-                oss.compute_backtest(
+                list_of_order_book_metrics_entry = oss.compute_backtest(
                     csv_path=csv_path,
                     variables=variables,
                     python_callback=self._cpp_binance_order_book_witness
                 )
+                self._backtest_entry_list.extend(list_of_order_book_metrics_entry)
                 bar()
         print(Colors.RESET)
 
     def _cpp_binance_order_book_witness(self, orderbook_entry_metrics: OrderBookMetricsEntry):
-        self._backtest_entry_list.append(orderbook_entry_metrics)
         self.callback(orderbook_entry_metrics)
 
     @measure_time
     def get_backtest_order_book_metrics_entry_df(self, variables: list[str]) -> pd.DataFrame:
-        return pd.DataFrame(
-            [
-                {var: getattr(entry, var) for var in variables}
-                for entry in self._backtest_entry_list
-            ]
-        )
+        getters = {var: attrgetter(var) for var in variables}
+        data = {var: [] for var in variables}
+
+        for entry in self._backtest_entry_list:
+            for var, getter in getters.items():
+                data[var].append(getter(entry))
+
+        return pd.DataFrame(data)
 
     def get_final_order_book_metrics_entry(self) -> OrderBookMetricsEntry:
         return self._backtest_entry_list[-1]
