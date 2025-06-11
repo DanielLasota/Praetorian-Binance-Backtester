@@ -1,4 +1,6 @@
 from operator import attrgetter
+
+import numpy as np
 import pandas as pd
 from pathlib import Path
 from alive_progress import alive_bar
@@ -57,9 +59,8 @@ class LearnSession:
         csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
 
         oss = OrderBookSessionSimulator()
-        orderbook_metrics_entries: list[OrderBookMetricsEntry] = oss.compute_variables(csv_path, variables)
-
-        return LearnSession._convert_order_book_metrics_entry_list_to_df(orderbook_metrics_entries, variables)
+        data: dict[str, np.ndarray] = oss.compute_variables_numpy(csv_path, variables)
+        return pd.DataFrame(data)
 
     @staticmethod
     @measure_time

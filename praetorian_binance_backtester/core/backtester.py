@@ -41,15 +41,17 @@ class Backtester:
         backtest_session = BacktestSession(callback=self.strategy_pool.inform_strategies)
         backtest_session.run(
             list_of_list_of_asset_parameters=self.backtester_config.backtest_list_of_merged_list_of_asset_parameters,
-            variables=self.backtester_config.cpp_order_book_variables_with_common_features
+            variables=self.backtester_config.cpp_order_book_variables_with_common_features,
+            save_df=True
         )
 
         deputy.force_zero_crypto_account_balance(
             final_order_book_metrics_entry=backtest_session.get_final_order_book_metrics_entry()
         )
 
-        backtest_order_book_metrics_entry_df = backtest_session.get_backtest_order_book_metrics_entry_df(
-            self.backtester_config.cpp_order_book_variables_with_common_features
-        )
+        backtest_order_book_metrics_entry_df = backtest_session.get_backtest_order_book_metrics_entry_df()
+
+        print(f'deputy.get_account_balance() {deputy.get_account_balance_usdt():.2f}')
+        print(f'deputy.get_account_balance_crypto() {deputy.get_account_balance_crypto("TRXUSDT")}')
 
         self.strategy_pool.show_strategies_summary(backtest_order_book_metrics_entry_df)
