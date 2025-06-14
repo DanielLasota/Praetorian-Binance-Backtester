@@ -25,7 +25,8 @@ if __name__ == '__main__':
                 # 'queueImbalance',
                 # 'volumeImbalance'
             ],
-            add_constant=False
+            add_constant=False,
+            starting_funds_usdt=100_000
         )
     )
 
