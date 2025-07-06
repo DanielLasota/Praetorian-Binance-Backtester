@@ -60,19 +60,10 @@ class LearnSession:
 
         oss = OrderBookSessionSimulator()
         data: dict[str, np.ndarray] = oss.compute_variables_numpy(csv_path, variables)
-        return pd.DataFrame(data)
 
-    @staticmethod
-    @measure_time
-    def _convert_order_book_metrics_entry_list_to_df(
-            orderbook_metrics_entries: list[OrderBookMetricsEntry],
-            variables: list[str]
-    ) -> pd.DataFrame:
-        getters = {var: attrgetter(var) for var in variables}
-        data = {var: [] for var in variables}
+        df = pd.DataFrame(data)
 
-        for entry in orderbook_metrics_entries:
-            for var, getter in getters.items():
-                data[var].append(getter(entry))
+        if variables != list(df.columns):
+            raise Exception(f'variables differs from dataframe columns: \n{variables}\nwhilst dataframe columns: \n{df.columns}')
 
-        return pd.DataFrame(data)
+        return df
