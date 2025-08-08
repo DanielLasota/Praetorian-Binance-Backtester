@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from pathlib import Path
 
 from praetorian_binance_backtester.enums.asset_parameters import AssetParameters
 from praetorian_strategies import Strategy, OLSStrategy
@@ -8,7 +7,7 @@ from praetorian_binance_backtester.enums.stream_type import StreamType
 from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
 
 
-MERGED_CSVS_NEST_CATALOG = str(Path.home() / "Documents" / "merged_csvs")
+MERGED_CSVS_NEST_CATALOG = 'D:/merged_csvs/'
 LEARNING_PROCESS_AMOUNT = 4
 BASE_CPP_ORDER_BOOK_VARIABLES = [
     'timestampOfReceive',

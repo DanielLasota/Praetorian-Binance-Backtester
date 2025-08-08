@@ -1,6 +1,3 @@
-from praetorian_strategies import OLSStrategy
-from praetorian_strategies import OLSStrategyConfig
-
 from praetorian_binance_backtester import Backtester
 from praetorian_binance_backtester.enums.backtester_config import BacktesterConfig
 from praetorian_strategies.bin.ols1_strategy import ols1_strategy
@@ -8,14 +5,16 @@ from praetorian_strategies.bin.ols1_strategy import ols1_strategy
 if __name__ == '__main__':
 
     config = BacktesterConfig(
-        learn_date_range=['28-05-2025', '20-06-2025'],
-        backtest_date_range=['21-06-2025', '02-07-2025'],
+        learn_date_range=['01-08-2025', '04-08-2025'],
+        backtest_date_range=['05-08-2025', '06-08-2025'],
         pairs=[
-            "ADAUSDT",
+            "BTCUSDT",
+            # "XRPUSDT",
+            # "SOLUSDT",
         ],
         markets=[
-            # 'SPOT',
-            'USD_M_FUTURES',
+            'SPOT',
+            # 'USD_M_FUTURES',
             # 'COIN_M_FUTURES'
         ],
         stream_types=[
