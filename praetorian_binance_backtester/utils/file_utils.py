@@ -68,57 +68,16 @@ class FileUtils:
         )
 
     @staticmethod
-    def get_base_of_blob_file_name(asset_parameters: AssetParameters) -> str:
-
-        if len(asset_parameters.pairs) != 1:
-            raise Exception(f"asset_parameters.pairs should've been a string")
-
-        formatted_now_timestamp = get_utc_formatted_timestamp_for_file_name()
-        return (
-            f"binance"
-            f"_{asset_parameters.stream_type.name.lower()}"
-            f"_{asset_parameters.market.name.lower()}"
-            f"_{asset_parameters.pairs[0].lower()}"
-            f"_{formatted_now_timestamp}"
-        )
-
-    @staticmethod
-    def get_base_of_root_csv_filename(asset_parameters: AssetParameters) -> str:
-        return (
-            f"binance"
-            f"_{asset_parameters.stream_type.name.lower()}"
-            f"_{asset_parameters.market.name.lower()}"
-            f"_{asset_parameters.pairs[0].lower()}"
-            f"_{asset_parameters.date}"
-        )
-
-    @staticmethod
     def get_base_of_merged_csv_filename(list_of_asset_parameters_for_single_csv: list[AssetParameters]) -> str:
-        stream_types = sorted({ap.stream_type.name.lower() for ap in list_of_asset_parameters_for_single_csv})
         markets = sorted({ap.market.name.lower() for ap in list_of_asset_parameters_for_single_csv})
         pairs = sorted({ap.pairs[0].lower() for ap in list_of_asset_parameters_for_single_csv})
-        date = list_of_asset_parameters_for_single_csv[0].date
+        date = list_of_asset_parameters_for_single_csv[0].get_date_in_ymd_format()
         return (
             f"binance_merged"
-            f"_{'_'.join(stream_types)}"
-            f"_{'_'.join(markets)}"
             f"_{'_'.join(pairs)}"
+            f"_{'_'.join(markets)}"
             f"_{date}"
         )
-
-    # @staticmethod
-    # def save_df_with_data_quality_reports(dataframe: pd.DataFrame,dataframe_quality_reports: DataQualityReport | list[DataQualityReport],dump_catalog: str,filename: str) -> None:
-    #     dump_path = Path(dump_catalog) / f"{filename}.csv"
-    #     dump_path.parent.mkdir(parents=True, exist_ok=True)
-    #
-    #     if isinstance(dataframe_quality_reports, DataQualityReport):
-    #         dataframe_quality_reports = [dataframe_quality_reports]
-    #
-    #     with dump_path.open("w", newline="") as f:
-    #         for report in dataframe_quality_reports:
-    #             f.write(str(report))
-    #             f.write("\n")
-    #         dataframe.to_csv(f, index=False, lineterminator="\n")
 
     @staticmethod
     def get_list_of_merged_list_of_asset_parameters(
