@@ -10,7 +10,6 @@ from praetorian_binance_backtester.enums.backtester_config import MERGED_CSVS_NE
 from praetorian_binance_backtester.enums.backtester_config import LEARNING_PROCESS_AMOUNT
 from praetorian_binance_backtester.utils.colors import Colors
 from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
-from praetorian_binance_backtester.utils.time_utils import measure_time
 
 
 class LearnSession:
@@ -18,7 +17,6 @@ class LearnSession:
     __slots__ = []
 
     @staticmethod
-    @measure_time
     def compute_variables_df(list_of_list_of_asset_parameters: list[list[AssetParameters]], variables: list) -> pd.DataFrame:
         if LEARNING_PROCESS_AMOUNT == 1:
             return LearnSession._date_range_single_process_iterator(list_of_list_of_asset_parameters, variables)
@@ -52,7 +50,6 @@ class LearnSession:
         return pd.concat(dfs, ignore_index=True)
 
     @staticmethod
-    @measure_time
     def _compute_variables_for_single_merged_csv(list_of_asset_parameters: list[AssetParameters], variables: list) -> pd.DataFrame:
         csv_name = fu.get_base_of_merged_csv_filename(list_of_asset_parameters)
         csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
