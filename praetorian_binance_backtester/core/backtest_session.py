@@ -10,7 +10,6 @@ from praetorian_binance_backtester.enums.asset_parameters import AssetParameters
 from praetorian_binance_backtester.enums.backtester_config import MERGED_CSVS_NEST_CATALOG
 from praetorian_binance_backtester.utils.colors import Colors
 from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
-from praetorian_binance_backtester.utils.time_utils import measure_time
 
 
 class BacktestSession:
@@ -29,7 +28,6 @@ class BacktestSession:
     def run(self, list_of_list_of_asset_parameters: list[list[AssetParameters]], variables: list[str], save_df: bool = False) -> None:
         self._backtest_loop(list_of_list_of_asset_parameters, variables, save_df)
 
-    @measure_time
     def _backtest_loop(self, list_of_list_of_asset_parameters: list[list[AssetParameters]], variables: list[str], save_df: bool = False) -> None:
         dfs: list[pd.DataFrame] = []
         print(Colors.CYAN)
@@ -57,7 +55,6 @@ class BacktestSession:
     def _cpp_binance_order_book_witness(self, orderbook_entry_metrics: OrderBookMetricsEntry):
         self.callback(orderbook_entry_metrics)
 
-    @measure_time
     def get_backtest_order_book_metrics_entry_df(self) -> pd.DataFrame:
         if self._backtest_order_book_metrics_entry_df is None:
             raise RuntimeError("BacktestSession.run(save=True) must be called first")
