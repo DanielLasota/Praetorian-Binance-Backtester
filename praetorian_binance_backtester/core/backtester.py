@@ -1,4 +1,3 @@
-from praetorian_binance_backtester.core import backtest_session
 from praetorian_strategies import StrategyPool
 
 from legatus_binance_deputy import DeputyRegistry

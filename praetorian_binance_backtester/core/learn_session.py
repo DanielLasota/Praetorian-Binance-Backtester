@@ -18,7 +18,7 @@ class LearnSession:
 
     @staticmethod
     def compute_variables_df(list_of_list_of_asset_parameters: list[list[AssetParameters]], variables: list) -> pd.DataFrame:
-        if LEARNING_PROCESS_AMOUNT == 1:
+        if LEARNING_PROCESS_AMOUNT == 1 or len(list_of_list_of_asset_parameters) == 1:
             return LearnSession._date_range_single_process_iterator(list_of_list_of_asset_parameters, variables)
         else:
             return LearnSession._date_range_multiprocessing_iterator(list_of_list_of_asset_parameters, variables)
@@ -55,7 +55,7 @@ class LearnSession:
         csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
 
         oss = OrderBookSessionSimulator()
-        data: dict[str, np.ndarray] = oss.compute_variables_numpy(csv_path, variables)
+        data: dict[str, np.ndarray] = oss.compute_variables(csv_path, variables)
 
         df = pd.DataFrame(data)
 
