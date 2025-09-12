@@ -8,10 +8,10 @@ if __name__ == '__main__':
         # learn_date_range=['02-08-2025', '06-08-2025'],
         # backtest_date_range=['07-08-2025', '07-08-2025'],
 
-        start_date='02-08-2025',
-        end_date='10-08-2025',
-        learn_days_amount=3,
-        backtest_day_amount=3,
+        start_date='03-08-2025',
+        end_date='04-08-2025',
+        learn_days_amount=1,
+        backtest_day_amount=1,
 
         pairs=[
             "BTCUSDT",

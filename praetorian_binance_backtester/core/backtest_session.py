@@ -37,7 +37,7 @@ class BacktestSession:
                 csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
 
                 oss = OrderBookSessionSimulator()
-                data: dict[str, np.ndarray] = oss.compute_backtest_numpy(
+                data: dict[str, np.ndarray] = oss.compute_backtest(
                     csv_path=csv_path,
                     variables=variables,
                     python_callback=self._cpp_binance_order_book_witness
