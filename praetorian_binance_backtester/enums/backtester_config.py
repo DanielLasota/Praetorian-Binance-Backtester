@@ -57,6 +57,8 @@ class BacktesterConfig:
     learn_list_of_merged_list_of_asset_parameters: list[list[list[AssetParameters]]] = field(init=False)
     backtest_list_of_merged_list_of_asset_parameters: list[list[list[AssetParameters]]] = field(init=False)
 
+    backtester_epochs: list[tuple[list[list[AssetParameters]]]] = field(init=False)
+
     def __post_init__(self):
         self.pairs = [pair.upper() for pair in self.pairs]
 
@@ -69,6 +71,16 @@ class BacktesterConfig:
             s if isinstance(s, StreamType) else StreamType(s.lower())
             for s in self.stream_types
         ]
+
+        self.common_strategies_features = list(
+            dict.fromkeys(
+                var
+                for strat in self.strategies
+                for var in strat.strategy_config.features
+            )
+        )
+
+        self.cpp_order_book_variables_with_common_features = BASE_CPP_ORDER_BOOK_VARIABLES + self.common_strategies_features
 
         if None not in (self.learn_date_range, self.backtest_date_range):
             (
@@ -102,15 +114,12 @@ class BacktesterConfig:
                 self.learn_list_of_merged_list_of_asset_parameters.append(learn_params)
                 self.backtest_list_of_merged_list_of_asset_parameters.append(backtest_params)
 
-        self.common_strategies_features = list(
-            dict.fromkeys(
-                var
-                for strat in self.strategies
-                for var in strat.strategy_config.features
+        self.backtester_epochs: list[tuple[list[list[AssetParameters]], list[list[AssetParameters]]]] = list(
+            zip(
+                self.learn_list_of_merged_list_of_asset_parameters,
+                self.backtest_list_of_merged_list_of_asset_parameters
             )
         )
-
-        self.cpp_order_book_variables_with_common_features = BASE_CPP_ORDER_BOOK_VARIABLES + self.common_strategies_features
 
     def _build_asset_param_lists(self) -> tuple[list[list[list[AssetParameters]]], list[list[list[AssetParameters]]]]:
         learn = fu.get_list_of_merged_list_of_asset_parameters(
