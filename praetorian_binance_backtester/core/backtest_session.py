@@ -8,7 +8,6 @@ import pandas as pd
 
 from praetorian_binance_backtester.enums.asset_parameters import AssetParameters
 from praetorian_binance_backtester.enums.backtester_config import MERGED_CSVS_NEST_CATALOG
-from praetorian_binance_backtester.utils.colors import Colors
 from praetorian_binance_backtester.utils.file_utils import FileUtils as fu
 
 
@@ -30,24 +29,18 @@ class BacktestSession:
 
     def _backtest_loop(self, list_of_list_of_asset_parameters: list[list[AssetParameters]], variables: list[str], save_df: bool = False) -> None:
         dfs: list[pd.DataFrame] = []
-        print(Colors.CYAN)
-        with alive_bar(len(list_of_list_of_asset_parameters), title='Backtest Session', spinner='dots_waves', force_tty=False) as bar:
-            for asset_params in list_of_list_of_asset_parameters:
-                csv_name = fu.get_base_of_merged_csv_filename(asset_params)
-                csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
+        for asset_params in list_of_list_of_asset_parameters:
+            csv_name = fu.get_base_of_merged_csv_filename(asset_params)
+            csv_path = str(Path(MERGED_CSVS_NEST_CATALOG) / f"{csv_name}.csv")
 
-                oss = OrderBookSessionSimulator()
-                data: dict[str, np.ndarray] = oss.compute_backtest(
-                    csv_path=csv_path,
-                    variables=variables,
-                    python_callback=self._cpp_binance_order_book_witness
-                )
-                if save_df:
-                    dfs.append(pd.DataFrame(data))
-
-                bar()
-
-        print(Colors.RESET)
+            oss = OrderBookSessionSimulator()
+            data: dict[str, np.ndarray] = oss.compute_backtest(
+                csv_path=csv_path,
+                variables=variables,
+                python_callback=self._cpp_binance_order_book_witness
+            )
+            if save_df:
+                dfs.append(pd.DataFrame(data))
 
         if save_df:
             self._backtest_order_book_metrics_entry_df = pd.concat(dfs, ignore_index=True)
