@@ -33,9 +33,7 @@ class Backtester:
 
         self.epoch_loop()
 
-        deputy.force_zero_crypto_account_balance(
-            final_order_book_metrics_entry=self.backtest_session.get_final_order_book_metrics_entry()
-        )
+        deputy.force_zero_crypto_account_balance(self.backtest_session.get_final_order_book_metrics_entry())
 
         backtest_df = self.backtest_session.get_backtest_order_book_metrics_entry_df()
 
@@ -47,15 +45,6 @@ class Backtester:
     def epoch_loop(self) -> None:
         for learn_epoch, backtest_epoch in zip(self.backtester_config.learn_list_of_merged_list_of_asset_parameters,
                                                self.backtester_config.backtest_list_of_merged_list_of_asset_parameters):
-            # print(f'\nlearn_epoch')
-            # for ap_list in learn_epoch:
-            #     for ap in ap_list:
-            #         print(ap)
-            # print(f'\nbacktest_epoch')
-            # for ap_list in backtest_epoch:
-            #     for ap in ap_list:
-            #         print(ap)
-            # print(f'>>>>>>')
 
             learn_df = LearnSession.compute_variables_df(
                 list_of_list_of_asset_parameters=learn_epoch,
