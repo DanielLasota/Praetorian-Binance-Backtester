@@ -2,7 +2,6 @@ from pathlib import Path
 from typing import Callable
 
 import numpy as np
-from alive_progress import alive_bar
 from cpp_binance_orderbook import OrderBookSessionSimulator, OrderBookMetricsEntry
 import pandas as pd
 

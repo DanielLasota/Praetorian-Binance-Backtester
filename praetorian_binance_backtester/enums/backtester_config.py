@@ -14,6 +14,7 @@ BASE_CPP_ORDER_BOOK_VARIABLES = [
     'timestampOfReceive',
     'market',
     'symbol',
+    'streamType',
     'bestAskPrice',
     'bestBidPrice',
     'midPrice'
